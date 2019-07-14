@@ -1,20 +1,35 @@
 package com.suchaos.concurrency;
 
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
- * CountDownLatch 简单实用
+ * CountDownLatch 简单使用
  *
  * @author suchao
  * @date 2019/7/14
  */
-public class CountDownLatchDemo {
+public class CountDownLatchTest {
 
-    public static void main(String[] args) {
+    static final int SIZE = 100;
 
+    public static void main(String[] args) throws InterruptedException {
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        CountDownLatch latch = new CountDownLatch(SIZE);
+
+        for (int i = 0; i < 10; i++) {
+            executorService.execute(new WaitingTask(latch));
+        }
+
+        for (int i = 0; i < SIZE; i++) {
+            executorService.execute(new TaskPortion(latch));
+        }
+
+        latch.await();
+        System.out.println("lauched all tasks");
+        executorService.shutdown();
     }
 }
 

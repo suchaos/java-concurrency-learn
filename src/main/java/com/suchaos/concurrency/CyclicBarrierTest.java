@@ -26,7 +26,6 @@ class Horse implements Runnable {
     private static int counter = 0;
     private final int id = counter++;
     private int strides = 0;
-    private static Random random = ThreadLocalRandom.current();
     private CyclicBarrier barrier;
 
     public Horse(CyclicBarrier barrier) {
@@ -42,7 +41,7 @@ class Horse implements Runnable {
         try {
             while (!Thread.interrupted()) {
                 synchronized (this) {
-                    strides += random.nextInt(3);
+                    strides += ThreadLocalRandom.current().nextInt(10);
                 }
                 barrier.await();
             }
@@ -86,13 +85,15 @@ class HorseRace {
             System.out.println(builder);
             for (Horse horse : horses) {
                 System.out.println(horse.tracks());
-
+            }
+            for (Horse horse : horses) {
                 if (horse.getStrides() >= FINSH_LINE) {
                     System.out.println(horse + " won!");
                     executorService.shutdownNow();
                     return;
                 }
             }
+
             try {
                 TimeUnit.MILLISECONDS.sleep(pause);
             } catch (InterruptedException e) {

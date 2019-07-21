@@ -25,6 +25,7 @@ public class InterruptTest1 {
 
         Thread.sleep(1000);
         thread2.interrupt();
+        System.out.println("end");
 
 //        Thread.sleep(1000);
 //        thread2.interrupt();

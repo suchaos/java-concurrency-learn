@@ -17,11 +17,12 @@ public class InterruptTest2 {
         Thread thread2 = new Thread(testInterrupt::method2, "Thread Method2");
 
         thread1.start();
-        Thread.sleep(100);
-        thread2.start();
-
         Thread.sleep(1000);
-        thread2.interrupt();
+        //thread1.interrupt();
+        //thread2.start();
+
+        //Thread.sleep(1000);
+        //thread2.interrupt();
 
 //        Thread.sleep(1000);
 //        thread2.interrupt();
